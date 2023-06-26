@@ -1,0 +1,16 @@
+{
+    "shape_style": {
+        "border_color": "#aaccdd",
+        "border_width": 1,
+        "center_color": "#757575",
+        "control_color": "#363636",
+        "control_handle_size": 20,
+        "fill_color": "#5566aa"
+    },
+    "view_style": {
+        "background_color": "#333333",
+        "chess_height": 50,
+        "chess_width": 20,
+        "foreground_color": "#4d4f53"
+    }
+}
