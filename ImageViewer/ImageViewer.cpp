@@ -1,7 +1,6 @@
 #include "ImageViewer.h"
 #include <qpalette.h>
 #include <qcoreapplication.h>
-#include "ShapeHandle.h"
 
 ImageViewer::ImageViewer(QWidget* parent) :
 	QGraphicsView(parent),
@@ -12,7 +11,7 @@ ImageViewer::ImageViewer(QWidget* parent) :
 	m_currentScale(1.0)
 {
 	setRenderHint(QPainter::Antialiasing);
-	setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+	setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 	setBackgroundBrush(QBrush(QColor::fromRgb(80, 80, 80)));
 
 	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -24,16 +23,14 @@ ImageViewer::ImageViewer(QWidget* parent) :
 
 	m_style_manager.setConfigDir(QCoreApplication::applicationDirPath() + "/../Config");
 
-	//add a shapehandle to test
-	ShapeRectangle* rect = new ShapeRectangle();
-	//rect->setRect(QRectF(0, 0, 100, 100));
-	rect->setPos(QPointF(100, 100));
-	m_scene->addItem(rect);
-
 	pixmapItem = new QGraphicsPixmapItem();
 	pixmapItem->setFlag(QGraphicsItem::ItemIsMovable, false);
 	m_scene->addItem(pixmapItem);
 	m_scene->setSceneRect(-50000, -50000, 100000, 100000);
+
+	//add shapeline for testing
+	//ShapeLine* line = new ShapeLine();
+	//m_scene->addItem(line);
 }
 
 ImageViewer::~ImageViewer()
@@ -56,10 +53,71 @@ void ImageViewer::fitShow()
 	setPixmap(m_pixmap);
 }
 
+void ImageViewer::drawShape(ShapeBase::ShapeTypeEnum _shape)
+{
+	m_draw_shape = _shape;
+	m_current_shape = nullptr;
+	m_points.clear();
+	switch (m_draw_shape)
+	{
+	case ShapeBase::SHAPE_NONE:
+		break;
+	case ShapeBase::SHAPE_LINE:
+		m_current_shape = new ShapeLine();
+		break;
+	case ShapeBase::SHAPE_RECTANGLE:
+		m_current_shape = new ShapeRectangle();
+		break;
+	case ShapeBase::SHAPE_ELLIPSE:
+		break;
+	case ShapeBase::SHAPE_POLYGON:
+		break;
+	case ShapeBase::SHAPE_FREEDRAW:
+		break;
+	default:
+		break;
+	}
+	if (m_current_shape != nullptr)
+	{
+		connect(m_current_shape,
+			&ShapeBase::sign_shapeComplete,
+			this, &ImageViewer::on_shapeComplete);
+	}
+	else
+	{
+		m_draw_shape = ShapeBase::SHAPE_NONE;
+	}
+}
+
+void ImageViewer::drawClick(QMouseEvent* e)
+{
+	if (m_draw_shape == ShapeBase::SHAPE_NONE)
+	{
+		return;
+	}
+	if (m_current_shape == nullptr)
+	{
+		return;
+	}
+	if (e->button() == Qt::RightButton)
+	{
+		//
+	}
+	m_points.append(mapToScene(e->pos()));
+	m_current_shape->setPoints(m_points);
+}
+
 void ImageViewer::resizeEvent(QResizeEvent* event)
 {
 	QGraphicsView::resizeEvent(event);
 	this->update();
+}
+
+void ImageViewer::on_shapeComplete(ShapeBase* _shape)
+{
+	m_scene->addItem(_shape);
+	m_current_shape = nullptr;
+	m_points.clear();
 }
 
 void ImageViewer::wheelEvent(QWheelEvent* e)
@@ -109,15 +167,15 @@ void ImageViewer::mousePressEvent(QMouseEvent* e)
 	}
 	else if (e->button() == Qt::RightButton)
 	{
-
 	}
-
+	drawClick(e);
 	update();
 	QGraphicsView::mousePressEvent(e);
 }
 
 void ImageViewer::mouseMoveEvent(QMouseEvent* e)
 {
+	QGraphicsView::mouseMoveEvent(e);
 	m_scenePos = mapToScene(e->pos());
 
 	if (m_moveScene)
@@ -127,7 +185,6 @@ void ImageViewer::mouseMoveEvent(QMouseEvent* e)
 	}
 
 	update();
-	QGraphicsView::mouseMoveEvent(e);
 }
 
 void ImageViewer::mouseReleaseEvent(QMouseEvent* e)

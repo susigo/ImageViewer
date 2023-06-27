@@ -14,6 +14,7 @@ TEMPLATE = lib
 SOURCES += \
     ImageViewWidget.cpp \
     ImageViewer.cpp \
+    ShapeBase.cpp \
     ShapeHandle.cpp
 
 HEADERS += \

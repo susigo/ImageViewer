@@ -53,10 +53,10 @@
     <ClCompile Include="ImageViewer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ShapeHandle.cpp">
+    <ClCompile Include="ShapeBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ShapeBase.cpp">
+    <ClCompile Include="ShapeHandle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -70,12 +70,12 @@
     <ClInclude Include="ImageViewer_global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ShapeBase.h">
+    <QtMoc Include="ShapeBase.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ShapeHandle.h">
+    </QtMoc>
+    <QtMoc Include="ShapeHandle.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -136,6 +136,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShapeRectangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapeLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShapesInclude.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

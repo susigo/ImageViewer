@@ -41,9 +41,7 @@
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
     <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
   </Target>
-  <ImportGroup Label="ExtensionSettings">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 11.6.props" />
-  </ImportGroup>
+  <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
   </ImportGroup>
@@ -216,14 +214,16 @@
     <ClCompile Include="ShapeHandle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ShapeLine.h" />
     <ClInclude Include="ShapeRectangle.h" />
+    <ClInclude Include="ShapesInclude.h" />
     <QtMoc Include="ImageViewWidget.h">
     </QtMoc>
     <QtMoc Include="ImageViewer.h">
     </QtMoc>
     <ClInclude Include="ImageViewer_global.h" />
-    <ClInclude Include="ShapeBase.h" />
-    <ClInclude Include="ShapeHandle.h" />
+    <QtMoc Include="ShapeBase.h" />
+    <QtMoc Include="ShapeHandle.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -268,7 +268,5 @@
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />
   </ImportGroup>
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 11.6.targets" />
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

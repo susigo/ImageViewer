@@ -4,16 +4,30 @@
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
-
-class ShapeHandle : public QGraphicsItem
+#include <QGraphicsSceneMouseEvent>
+#include <QFocusEvent>
+class ShapeHandle : public QObject, public QGraphicsItem
 {
+	Q_OBJECT
+		Q_INTERFACES(QGraphicsItem)
 public:
-	ShapeHandle(QGraphicsItem* parent = nullptr);
+	enum HandleTypeEnum
+	{
+		HANDLE_SIZE,
+		HANDLE_ROTATE,
+		HANDLE_MOVE
+	};
+	ShapeHandle(HandleTypeEnum _handle_type, QGraphicsItem* parent = nullptr);
 	~ShapeHandle() = default;
+	HandleTypeEnum getHandleType();
+signals:
+	void sign_handleMouseMove(QPointF _scene_pos);
+	void sign_handleMouseRelease(QPointF _scene_pos);
 protected:
 	void hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
 	void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
-
+	void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
+	void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
 	QRectF boundingRect() const override;
 	void paint(QPainter* painter,
 		const QStyleOptionGraphicsItem* option,
@@ -29,6 +43,7 @@ private:
 	static QBrush m_brush;
 	double m_active_ratio = 1.1;//激活时的放大倍数
 	bool m_is_hovered = false;
+	HandleTypeEnum m_handle_type = HANDLE_SIZE;
 };
 
 

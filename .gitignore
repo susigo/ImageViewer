@@ -361,3 +361,9 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/ImageViewer/Makefile
+/ImageViewer/Makefile.Debug
+/ImageViewer/Makefile.Release
+/ImageViewerDemo/Makefile
+/ImageViewerDemo/Makefile.Debug
+/ImageViewerDemo/Makefile.Release

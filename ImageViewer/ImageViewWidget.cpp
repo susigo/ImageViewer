@@ -70,26 +70,28 @@ void ImageViewWidget::on_tbtn_zoom_clicked()
 void ImageViewWidget::on_tbtn_drawLine_clicked()
 {
 	qDebug() << "draw line clicked : ";
+	m_image_view->drawShape(ShapeBase::SHAPE_LINE);
 }
 
 
 void ImageViewWidget::on_tbtn_drawRectangle_clicked()
 {
 	qDebug() << "draw rectangle clicked : ";
+	m_image_view->drawShape(ShapeBase::SHAPE_RECTANGLE);
 }
 
 
 void ImageViewWidget::on_tbtn_drawPolygon_clicked()
 {
 	qDebug() << "draw polygon clicked : ";
-
+	m_image_view->drawShape(ShapeBase::SHAPE_POLYGON);
 }
 
 
 void ImageViewWidget::on_tbtn_freeDraw_clicked()
 {
 	qDebug() << "free draw clicked : ";
-
+	m_image_view->drawShape(ShapeBase::SHAPE_FREEDRAW);
 }
 
 
